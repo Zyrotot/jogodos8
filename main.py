@@ -48,27 +48,6 @@ def buscaLargura():
                     return
                 abertos.append((elemento, acoes + [acao]))
 
-def buscaAEstrela():
-    tempoInico = time.time()
-    i = 0
-    while abertos:
-        estado, acoes = abertos.pop(0)
-        i+=1
-        visitados.append(estado)
-        l, c = buscaVazio(estado)
-        a = buscaEstados(estado, l, c)
-        for elemento, acao in a:
-            if elemento not in visitados:
-                if elemento == obj:
-                    tempoFim = time.time()
-                    print("Objetivo alcançado em",i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
-                    print("Caminho de ações executadas:")
-                    while acoes:
-                        print(acoes.pop(0))
-                    print("Estado final: ",elemento)
-                    return
-                abertos.append((elemento, acoes + [acao]))
-
 obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 print("Meu objetivo é:")
 print(obj)
@@ -94,5 +73,4 @@ print(estadoAtual)
 visitados = []
 abertos = [(estadoAtual, [])]
 
-# buscaLargura()
-buscaAEstrela()
+buscaLargura()
