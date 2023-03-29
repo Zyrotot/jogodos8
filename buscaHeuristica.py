@@ -63,7 +63,7 @@ def buscaAEstrela():
                     print("Estado final: ", elemento)
                     return
                 custoReal = len(acoes) + 1
-                custoEstimado = heuristicaDistancia(elemento, obj)
+                custoEstimado = custo
                 custoTotal = custoReal + custoEstimado
                 abertos.append((elemento, acoes + [acao], custoTotal))
                 print("custo total: ", custoTotal)
