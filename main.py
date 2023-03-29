@@ -12,56 +12,62 @@ def buscaEstados(m, l, c):
     if l < 2:
         novoMovimento = [list(l) for l in m]
         novoMovimento[l][c], novoMovimento[l+1][c] = novoMovimento[l+1][c], 0
-        abertos.append(novoMovimento)
+        abertos.append((novoMovimento, "Baixo"))
     if c < 2:
         novoMovimento = [list(l) for l in m]
         novoMovimento[l][c], novoMovimento[l][c+1] = novoMovimento[l][c+1], 0
-        abertos.append(novoMovimento)
+        abertos.append((novoMovimento, "Direita"))
     if l > 0:
         novoMovimento = [list(l) for l in m]
         novoMovimento[l][c], novoMovimento[l-1][c] = novoMovimento[l-1][c], 0
-        abertos.append(novoMovimento)
+        abertos.append((novoMovimento, "Cima"))
     if c > 0:
         novoMovimento = [list(l) for l in m]
         novoMovimento[l][c], novoMovimento[l][c-1] = novoMovimento[l][c-1], 0
-        abertos.append(novoMovimento)
+        abertos.append((novoMovimento, "Esquerda"))
     return abertos
 
 def buscaLargura():
     tempoInico = time.time()
     i = 0
     while abertos:
-        estado = abertos.pop(0)
+        estado, acoes = abertos.pop(0)
         i+=1
         visitados.append(estado)
         l, c = buscaVazio(estado)
         a = buscaEstados(estado, l, c)
-        for elemento in a:
+        for elemento, acao in a:
             if elemento not in visitados:
                 if elemento == obj:
                     tempoFim = time.time()
                     print("\nObjetivo alcançado em",i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
-                    print(elemento)
+                    print("Caminho de ações executadas:")
+                    while acoes:
+                        print(acoes.pop(0))
+                    print("Estado final: ",elemento)
                     return
-                abertos.append(elemento)
+                abertos.append((elemento, acoes + [acao]))
 
 def buscaAEstrela():
     tempoInico = time.time()
     i = 0
     while abertos:
-        estado = abertos.pop(0)
+        estado, acoes = abertos.pop(0)
         i+=1
         visitados.append(estado)
         l, c = buscaVazio(estado)
         a = buscaEstados(estado, l, c)
-        for elemento in a:
+        for elemento, acao in a:
             if elemento not in visitados:
                 if elemento == obj:
                     tempoFim = time.time()
                     print("Objetivo alcançado em",i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
-                    print(elemento)
+                    print("Caminho de ações executadas:")
+                    while acoes:
+                        print(acoes.pop(0))
+                    print("Estado final: ",elemento)
                     return
-                abertos.append(elemento)
+                abertos.append((elemento, acoes + [acao]))
 
 obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 print("Meu objetivo é:")
@@ -86,7 +92,7 @@ print("Matriz de estado inicial é:")
 print(estadoAtual)
 
 visitados = []
-abertos = [estadoAtual]
+abertos = [(estadoAtual, [])]
 
 # buscaLargura()
 buscaAEstrela()
