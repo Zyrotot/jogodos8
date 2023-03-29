@@ -1,5 +1,6 @@
 import random
 import copy
+import time
 
 def buscaVazio(m):
     abertos = []
@@ -35,6 +36,7 @@ def buscaEstados(m, l, c):
     return abertos
 
 def buscaProfundidade():
+    start = time.time()
     i = 0
     while 1:
         state = abertos.pop(0)
@@ -46,7 +48,8 @@ def buscaProfundidade():
         for elemento in a:
             if elemento not in visitados:
                 if elemento == obj:
-                    print("\nObjetivo alcançado em",i, "tentativas!")
+                    end = time.time()
+                    print("\nObjetivo alcançado em",i, "tentativas com um tempo de", end - start, "segundos")
                     print(state)
                     return
                 abertos.append(elemento)
