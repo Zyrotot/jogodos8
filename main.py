@@ -1,5 +1,4 @@
 import random
-import copy
 import time
 
 def buscaVazio(m):
@@ -11,27 +10,22 @@ def buscaVazio(m):
 
 def buscaEstados(m, l, c):
     abertos = []
-
     if l < 2:
-        temp = copy.deepcopy(m)
-        temp[l][c] = temp[l+1][c]
-        temp[l+1][c] = 0
-        abertos.append(temp)
+        new_m = [list(l) for l in m]
+        new_m[l][c], new_m[l+1][c] = new_m[l+1][c], 0
+        abertos.append(new_m)
     if c < 2:
-        temp = copy.deepcopy(m)
-        temp[l][c] = temp[l][c+1]
-        temp[l][c+1] = 0
-        abertos.append(temp)
+        new_m = [list(l) for l in m]
+        new_m[l][c], new_m[l][c+1] = new_m[l][c+1], 0
+        abertos.append(new_m)
     if l > 0:
-        temp = copy.deepcopy(m)
-        temp[l][c] = temp[l-1][c]
-        temp[l-1][c] = 0
-        abertos.append(temp)
+        new_m = [list(l) for l in m]
+        new_m[l][c], new_m[l-1][c] = new_m[l-1][c], 0
+        abertos.append(new_m)
     if c > 0:
-        temp = copy.deepcopy(m)
-        temp[l][c] = temp[l][c-1]
-        temp[l][c-1] = 0
-        abertos.append(temp)
+        new_m = [list(l) for l in m]
+        new_m[l][c], new_m[l][c-1] = new_m[l][c-1], 0
+        abertos.append(new_m)
 
     return abertos
 
@@ -55,6 +49,7 @@ def buscaProfundidade():
                 abertos.append(elemento)
 
 def buscaAestrela():
+    start = time.time()
     i = 0
     while 1:
         state = abertos.pop(0)
@@ -66,6 +61,7 @@ def buscaAestrela():
         for elemento in a:
             if elemento not in visitados:
                 if elemento == obj:
+                    end = time.time()
                     print("Objetivo alcançado em",i, "tentativas!\n")
                     print(state)
                     return
