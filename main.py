@@ -2,7 +2,6 @@ import random
 import time
 
 def buscaVazio(m):
-    abertos = []
     for l in range(0,3):
         for c in range(0,3):
             if m[l][c] == 0:
@@ -26,16 +25,14 @@ def buscaEstados(m, l, c):
         new_m = [list(l) for l in m]
         new_m[l][c], new_m[l][c-1] = new_m[l][c-1], 0
         abertos.append(new_m)
-
     return abertos
 
-def buscaProfundidade():
+def buscaLargura():
     start = time.time()
     i = 0
-    while 1:
+    while abertos:
         state = abertos.pop(0)
-        i=i+1
-        
+        i+=1
         visitados.append(state)
         l, c = buscaVazio(state)
         a = buscaEstados(state, l, c)
@@ -44,17 +41,16 @@ def buscaProfundidade():
                 if elemento == obj:
                     end = time.time()
                     print("\nObjetivo alcançado em",i, "tentativas com um tempo de", end - start, "segundos")
-                    print(state)
+                    print(elemento)
                     return
                 abertos.append(elemento)
 
-def buscaAestrela():
+def buscaAEstrela():
     start = time.time()
     i = 0
-    while 1:
+    while abertos:
         state = abertos.pop(0)
-        i=i+1
-        
+        i+=1
         visitados.append(state)
         l, c = buscaVazio(state)
         a = buscaEstados(state, l, c)
@@ -62,8 +58,8 @@ def buscaAestrela():
             if elemento not in visitados:
                 if elemento == obj:
                     end = time.time()
-                    print("Objetivo alcançado em",i, "tentativas!\n")
-                    print(state)
+                    print("Objetivo alcançado em",i, "tentativas com um tempo de", end - start, "segundos")
+                    print(elemento)
                     return
                 abertos.append(elemento)
 
@@ -92,4 +88,5 @@ print(estadoAtual)
 visitados = []
 abertos = [estadoAtual]
 
-buscaProfundidade()
+buscaLargura()
+# buscaAEstrela()
