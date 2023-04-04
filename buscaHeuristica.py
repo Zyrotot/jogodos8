@@ -56,7 +56,7 @@ def buscaAEstrela():
             if elemento not in visitados:
                 if elemento == obj:
                     tempoFim = time.time()
-                    print("Objetivo alcançado em", i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
+                    print("\nObjetivo alcançado em", i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
                     print("Caminho de ações executadas:")
                     while acoes:
                         print(acoes.pop(0))
@@ -66,7 +66,6 @@ def buscaAEstrela():
                 custoEstimado = custo
                 custoTotal = custoReal + custoEstimado
                 abertos.append((elemento, acoes + [acao], custoTotal))
-                print("custo total: ", custoTotal)
         abertos.sort(key=lambda x: x[2])
 
 obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
