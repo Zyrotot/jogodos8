@@ -43,32 +43,6 @@ def buscaPosicao(m, valor):
             if m[l][c] == valor:
                 return l, c
 
-def calculaPenalidade(m, obj):
-    penalidade = 0
-    custo = 0.5
-    for l in range(0,3):
-        for c in range(0,3):
-            if m[l][c] != 0 and m[l][c] != obj[l][c]:
-                if l == 2:
-                    if m[l-1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif l == 1:
-                    if m[l-1][c] == obj[l][c] or m[l+1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif l == 0:
-                    if m[l+1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 2:
-                    if m[l][c-1] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 1:
-                    if m[l][c-1] == obj[l][c] or m[l][c+1] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 0:
-                    if m[l][c+1] == obj[l][c]:
-                        penalidade +=custo
-    return penalidade
-
 def buscaAEstrela():
     tempoInico = time.time()
     i = 0
@@ -90,8 +64,7 @@ def buscaAEstrela():
                     return
                 custoReal = len(acoes) + 1
                 custoEstimado = custo
-                custoPenalidade = calculaPenalidade(elemento, obj)
-                custoTotal = custoReal + custoEstimado + custoPenalidade
+                custoTotal = custoReal + custoEstimado
                 abertos.append((elemento, acoes + [acao], custoTotal))
         abertos.sort(key=lambda x: x[2])
 
@@ -112,7 +85,6 @@ print(obj)
 # x = [[6, 7, 5], [1, 2, 3], [0, 4, 8]] # 18 acoes
 x = [[3, 1, 8], [5, 6, 2], [7, 4, 0]] # 24 acoes
 # x = [[8, 6, 7], [2, 5, 4], [3, 0, 1]] # 31 acoes
-
 
 # x = [[0, 1, 2], [4, 5, 3], [7, 8, 6]]
 # x = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
