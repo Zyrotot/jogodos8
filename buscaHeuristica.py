@@ -45,28 +45,18 @@ def buscaPosicao(m, valor):
 
 def calculaPenalidade(m, obj):
     penalidade = 0
-    custo = 0.5
+    custo = 1
     for l in range(0,3):
         for c in range(0,3):
             if m[l][c] != 0 and m[l][c] != obj[l][c]:
-                if l == 2:
-                    if m[l-1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif l == 1:
-                    if m[l-1][c] == obj[l][c] or m[l+1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif l == 0:
-                    if m[l+1][c] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 2:
-                    if m[l][c-1] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 1:
-                    if m[l][c-1] == obj[l][c] or m[l][c+1] == obj[l][c]:
-                        penalidade +=custo
-                elif c == 0:
-                    if m[l][c+1] == obj[l][c]:
-                        penalidade +=custo
+                if l > 0 and m[l-1][c] == obj[l][c] and m[l][c] == obj[l-1][c]:
+                    penalidade +=custo
+                elif l < 2 and m[l+1][c] == obj[l][c] and m[l][c] == obj[l+1][c]:
+                    penalidade +=custo
+                if c > 0 and m[l][c-1] == obj[l][c] and m[l][c] == obj[l][c-1]:
+                    penalidade +=custo
+                elif c < 2 and m[l][c+1] == obj[l][c] and m[l][c] == obj[l][c+1]:
+                    penalidade +=custo
     return penalidade
 
 def buscaAEstrela():
