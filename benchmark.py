@@ -1,8 +1,12 @@
 from buscaLargura import solutionLargura
 from buscaAestrela import solutionAestrela
 from buscaHeuristica import solutionHeuristica
+import sys
 
-moves = 24
+if len(sys.argv) > 1:
+    moves = int(sys.argv[1])
+else:
+    moves = 24
 
 estadosIniciais = {17: [[0, 5, 3], [7, 2, 6], [4, 1, 8]],
                    18: [[6, 7, 5], [1, 2, 3], [0, 4, 8]],
