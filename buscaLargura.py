@@ -27,8 +27,8 @@ def buscaEstados(m, l, c):
         abertos.append((novoMovimento, "Esquerda"))
     return abertos
 
-def buscaLargura():
-    tempoInico = time.time()
+def buscaLargura(abertos, visitados):
+    tempoInicio = time.time()
     i = 0
     while abertos:
         estado, acoes = abertos.pop(0)
@@ -40,28 +40,23 @@ def buscaLargura():
             if elemento not in visitados:
                 if elemento == obj:
                     tempoFim = time.time()
-                    print("\nObjetivo alcançado em",i, "tentativas com um tempo de", tempoFim - tempoInico, "segundos")
+                    tempo = tempoFim - tempoInicio
+                    print("\nObjetivo alcançado em",i, "tentativas com um tempo de", tempo, "segundos")
                     print("Caminho de ações executadas:")
                     while acoes:
                         print(acoes.pop(0))
                     print("Estado final: ",elemento)
-                    return
+
+                    return i, tempo
                 abertos.append((elemento, acoes + [acao]))
 
+
+def solutionLargura(x):
+    estadoAtual = x.copy()
+
+    visitados = []
+    abertos = [(estadoAtual, [])]
+
+    return buscaLargura(abertos, visitados)
+
 obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
-print("Meu objetivo é:")
-print(obj)
-
-# x = [[0, 5, 3], [7, 2, 6], [4, 1, 8]] # 17 acoes
-x = [[6, 7, 5], [1, 2, 3], [0, 4, 8]] # 18 acoes
-# x = [[3, 1, 8], [5, 6, 2], [7, 4, 0]] # 24 acoes
-# x = [[8, 6, 7], [2, 5, 4], [3, 0, 1]] # 31 acoes
-
-estadoAtual = x.copy()
-print("Matriz de estado inicial é:")
-print(estadoAtual)
-
-visitados = []
-abertos = [(estadoAtual, [])]
-
-buscaLargura()
