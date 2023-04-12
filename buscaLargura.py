@@ -4,28 +4,29 @@ import time
 def buscaVazio(m):
     for l in range(0,3):
         for c in range(0,3):
-            if m[l][c] == 0:
+            if m[l*3+c] == 0:
                 return l, c
 
 def buscaEstados(m, l, c):
     abertos = []
     if l < 2:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l+1][c] = novoMovimento[l+1][c], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[(l+1)*3+c] = novoMovimento[(l+1)*3+c], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Baixo"))
     if c < 2:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l][c+1] = novoMovimento[l][c+1], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[l*3+(c+1)] = novoMovimento[l*3+(c+1)], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Direita"))
     if l > 0:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l-1][c] = novoMovimento[l-1][c], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[(l-1)*3+c] = novoMovimento[(l-1)*3+c], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Cima"))
     if c > 0:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l][c-1] = novoMovimento[l][c-1], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[l*3+(c-1)] = novoMovimento[l*3+(c-1)], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Esquerda"))
     return abertos
+
 
 def buscaLargura(abertos, visitados):
     tempoInicio = time.time()
@@ -59,4 +60,4 @@ def solutionLargura(x):
 
     return buscaLargura(abertos, visitados)
 
-obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+obj = [1, 2, 3, 4, 5, 6, 7, 8, 0]

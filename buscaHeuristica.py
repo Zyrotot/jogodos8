@@ -4,26 +4,26 @@ import time
 def buscaVazio(m):
     for l in range(0,3):
         for c in range(0,3):
-            if m[l][c] == 0:
+            if m[l*3+c] == 0:
                 return l, c
 
 def buscaEstados(m, l, c):
     abertos = []
     if l < 2:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l+1][c] = novoMovimento[l+1][c], 0
-        abertos.append((novoMovimento, "Baixo", heuristicaDistancia(novoMovimento, obj) ))
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[(l+1)*3+c] = novoMovimento[(l+1)*3+c], novoMovimento[l*3+c]
+        abertos.append((novoMovimento, "Baixo", heuristicaDistancia(novoMovimento, obj)))
     if c < 2:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l][c+1] = novoMovimento[l][c+1], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[l*3+(c+1)] = novoMovimento[l*3+(c+1)], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Direita", heuristicaDistancia(novoMovimento, obj)))
     if l > 0:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l-1][c] = novoMovimento[l-1][c], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[(l-1)*3+c] = novoMovimento[(l-1)*3+c], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Cima", heuristicaDistancia(novoMovimento, obj)))
     if c > 0:
-        novoMovimento = [list(l) for l in m]
-        novoMovimento[l][c], novoMovimento[l][c-1] = novoMovimento[l][c-1], 0
+        novoMovimento = m.copy()
+        novoMovimento[l*3+c], novoMovimento[l*3+(c-1)] = novoMovimento[l*3+(c-1)], novoMovimento[l*3+c]
         abertos.append((novoMovimento, "Esquerda", heuristicaDistancia(novoMovimento, obj)))
     return abertos
 
@@ -31,7 +31,7 @@ def heuristicaDistancia(estadoAtual, obj):
     distancia = 0
     for i in range(3):
         for j in range(3):
-            valor = estadoAtual[i][j]
+            valor = estadoAtual[i*3+j]
             if valor != 0:
                 linhaObj, colunaObj = buscaPosicao(obj, valor)
                 distancia += abs(i - linhaObj) + abs(j - colunaObj)
@@ -40,7 +40,7 @@ def heuristicaDistancia(estadoAtual, obj):
 def buscaPosicao(m, valor):
     for l in range(3):
         for c in range(3):
-            if m[l][c] == valor:
+            if m[l*3+c] == valor:
                 return l, c
 
 def calculaPenalidade(m, obj):
@@ -48,16 +48,17 @@ def calculaPenalidade(m, obj):
     custo = 1
     for l in range(0,3):
         for c in range(0,3):
-            if m[l][c] != 0 and m[l][c] != obj[l][c]:
-                if l > 0 and m[l-1][c] == obj[l][c] and m[l][c] == obj[l-1][c]:
-                    penalidade +=custo
-                elif l < 2 and m[l+1][c] == obj[l][c] and m[l][c] == obj[l+1][c]:
-                    penalidade +=custo
-                if c > 0 and m[l][c-1] == obj[l][c] and m[l][c] == obj[l][c-1]:
-                    penalidade +=custo
-                elif c < 2 and m[l][c+1] == obj[l][c] and m[l][c] == obj[l][c+1]:
-                    penalidade +=custo
+            if m[l*3+c] != 0 and m[l*3+c] != obj[l*3+c]:
+                if l > 0 and m[(l-1)*3+c] == obj[l*3+c] and m[l*3+c] == obj[(l-1)*3+c]:
+                    penalidade += custo
+                elif l < 2 and m[(l+1)*3+c] == obj[l*3+c] and m[l*3+c] == obj[(l+1)*3+c]:
+                    penalidade += custo
+                if c > 0 and m[l*3+c-1] == obj[l*3+c] and m[l*3+c] == obj[l*3+c-1]:
+                    penalidade += custo
+                elif c < 2 and m[l*3+c+1] == obj[l*3+c] and m[l*3+c] == obj[l*3+c+1]:
+                    penalidade += custo
     return penalidade
+
 
 def buscaAEstrela(abertos, visitados):
     tempoInicio = time.time()
@@ -107,4 +108,4 @@ def solutionHeuristica(x):
 
     return buscaAEstrela(abertos, visitados)
 
-obj = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+obj = [1, 2, 3, 4, 5, 6, 7, 8, 0]
