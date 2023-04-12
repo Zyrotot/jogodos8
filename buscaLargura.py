@@ -42,7 +42,7 @@ def buscaLargura(abertos, visitados):
                 if elemento == obj:
                     tempoFim = time.time()
                     tempo = tempoFim - tempoInicio
-                    print("\nObjetivo alcançado em",i, "tentativas com um tempo de", tempo, "segundos")
+                    print("\nObjetivo alcançado em", i, "tentativas com um tempo de", tempo, "segundos com ", len(acoes)+1, " movimentos")
                     print("Caminho de ações executadas:")
                     while acoes:
                         print(acoes.pop(0))
