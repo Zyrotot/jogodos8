@@ -79,11 +79,24 @@ def buscaAEstrela(abertos, visitados):
                         print(acoes.pop(0))
                     print("Estado final: ", elemento)
                     return i, tempo
+                
                 custoReal = len(acoes) + 1
                 custoEstimado = custo
                 custoPenalidade = calculaPenalidade(elemento, obj)
                 custoTotal = custoReal + custoEstimado + custoPenalidade
-                abertos.append((elemento, acoes + [acao], custoTotal))
+
+                estadoExiste = None
+
+                for s in abertos:
+                    if s[0] == elemento:
+                        estadoExiste = s
+                        break
+                if estadoExiste is None:
+                    abertos.append((elemento, acoes + [acao], custoTotal))
+                else:
+                    if custoTotal < estadoExiste[2]:
+                        abertos.remove(estadoExiste)
+                        abertos.append((elemento, acoes + [acao], custoTotal))
         abertos.sort(key=lambda x: x[2])
 
 def solutionHeuristica(x):

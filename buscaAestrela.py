@@ -64,10 +64,23 @@ def buscaAEstrela(abertos, visitados):
                     print("Estado final: ", elemento)
 
                     return i, tempo
+                
                 custoReal = len(acoes) + 1
                 custoEstimado = custo
                 custoTotal = custoReal + custoEstimado
-                abertos.append((elemento, acoes + [acao], custoTotal))
+
+                estadoExiste = None
+
+                for s in abertos:
+                    if s[0] == elemento:
+                        estadoExiste = s
+                        break
+                if estadoExiste is None:
+                    abertos.append((elemento, acoes + [acao], custoTotal))
+                else:
+                    if custoTotal < estadoExiste[2]:
+                        abertos.remove(estadoExiste)
+                        abertos.append((elemento, acoes + [acao], custoTotal))
         abertos.sort(key=lambda x: x[2])
 
 def solutionAestrela(x):
