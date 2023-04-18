@@ -14,7 +14,6 @@ Tabela comparativa com o número de nós visitados por cada método, para tabule
 
 |         | buscaLargura | buscaAestrela | buscaHeuristica |
 |---------|--------------|---------------|-----------------|
-|   17    |      18867   |       376     |           306    |
 |   18    |      20607   |       169     |           134    |
-|   24    |        NA    |      2281     |          1874    |
-|   31    |        NA    |     23253     |         21711    |
+|   24    |        NA    |      2116     |          1782    |
+|   31    |        NA    |     19763     |         18513    |
